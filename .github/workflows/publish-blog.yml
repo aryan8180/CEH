@@ -1,0 +1,34 @@
+name: Publish Blog Posts to Hashnode
+
+on:
+  push:
+    branches:
+      - main # Or your default branch (e.g., 'master')
+    paths:
+      - 'posts/**.md' # Trigger only when Markdown files in the 'posts' directory change
+
+jobs:
+  publish-to-hashnode:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Use the latest checkout action
+
+      - name: Publish to Hashnode
+        # We'll use raunakgurud09/hashnode-publish. Check its GitHub page for any updates or specific requirements.
+        # You might need to adjust the version (e.g., v0.0.1) or inputs based on the action's documentation.
+        uses: raunakgurud09/hashnode-publish@v0.0.1
+        with:
+          hashnode_key: ${{ secrets.HASHNODE_TOKEN }}
+          # Path to your markdown files. **IMPORTANT:** This expects your posts to be in a 'posts' directory.
+          # If your posts are directly in the root, use '**.md'.
+          file: 'posts/**/*.md'
+          # Optional: Your Hashnode publication host. Uncomment and set if you have multiple Hashnode blogs
+          # or a custom domain. Example: yourusername.hashnode.dev or yourdomain.com
+          # host: 'yourusername.hashnode.dev'
+          # Optional: Set to true if you want to publish the post immediately (default is true for most actions)
+          # publish_as_draft: 'false'
+          # Optional: Canonical URL. Highly recommended for SEO.
+          # originalArticleURL: 'https://yourwebsite.com/blog/your-post-slug'
+          # You'll likely want to generate this dynamically, which is more advanced.
+          # For now, ensure your Hashnode blog automatically sets it if it's the original.
